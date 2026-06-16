@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const Usuario = sequelize.define(
-  "Usuario",
+const LogAcceso = sequelize.define(
+  "LogAcceso",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -10,30 +10,30 @@ const Usuario = sequelize.define(
       autoIncrement: true,
     },
 
-    nombre: {
+    usuario_id: {
+      type: DataTypes.INTEGER,
+    },
+
+    ip: {
       type: DataTypes.STRING,
     },
 
-    correo: {
+    navegador: {
       type: DataTypes.STRING,
     },
 
-    password: {
+    evento: {
       type: DataTypes.STRING,
     },
 
-    rol: {
-      type: DataTypes.STRING,
-    },
-
-    estado: {
-      type: DataTypes.BOOLEAN,
+    fecha_hora: {
+      type: DataTypes.DATE,
     },
   },
   {
-    tableName: "usuarios",
+    tableName: "logs_acceso",
     timestamps: false,
   }
 );
 
-module.exports = Usuario;
+module.exports = LogAcceso;

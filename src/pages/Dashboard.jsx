@@ -1,24 +1,41 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import GraficoVentas from "../components/GraficoVentas";
 
 function Dashboard() {
+
+  const navigate = useNavigate();
+
   const [productos, setProductos] = useState([]);
   const [clientes, setClientes] = useState([]);
   const [ventas, setVentas] = useState([]);
 
   useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
     cargarDatos();
+
   }, []);
 
   const cargarDatos = async () => {
     try {
-      const [resProductos, resClientes, resVentas] =
-        await Promise.all([
-          api.get("/productos"),
-          api.get("/clientes"),
-          api.get("/ventas"),
-        ]);
+
+      const [
+        resProductos,
+        resClientes,
+        resVentas,
+      ] = await Promise.all([
+        api.get("/productos"),
+        api.get("/clientes"),
+        api.get("/ventas"),
+      ]);
 
       setProductos(resProductos.data);
       setClientes(resClientes.data);
@@ -52,7 +69,6 @@ function Dashboard() {
     (acum, v) => acum + Number(v.total || 0),
     0
   );
-  
 
   return (
     <div className="container mt-4">
@@ -94,7 +110,9 @@ function Dashboard() {
           <div className="card text-center shadow mb-3 border-danger">
             <div className="card-body">
               <h5>💵 Total Vendido</h5>
-              <h2>Bs. {totalVendido.toFixed(2)}</h2>
+              <h2>
+                Bs. {totalVendido.toFixed(2)}
+              </h2>
             </div>
           </div>
         </div>
@@ -116,25 +134,33 @@ function Dashboard() {
           <div className="card shadow mb-3">
             <div className="card-body text-center">
               <h5>🏦 Valor Inventario</h5>
-              <h2>Bs. {valorInventario.toFixed(2)}</h2>
+              <h2>
+                Bs. {valorInventario.toFixed(2)}
+              </h2>
             </div>
           </div>
         </div>
 
       </div>
+
       <div className="card shadow mt-4">
 
-  <div className="card-header bg-success text-white">
-    Gráfico de Ventas
-  </div>
+        <div className="card-header bg-success text-white">
+          Gráfico de Ventas
+        </div>
 
-  <div className="card-body">
-    <GraficoVentas ventas={ventas} />
-  </div>
+        <div className="card-body">
 
-</div>
+          <GraficoVentas
+            ventas={ventas}
+          />
+
+        </div>
+
+      </div>
 
       <div className="card shadow mt-3">
+
         <div className="card-header bg-primary text-white">
           Resumen General
         </div>
@@ -142,17 +168,38 @@ function Dashboard() {
         <div className="card-body">
 
           <p>
-            Sistema de gestión para distribuidora de bebidas.
+            Sistema de gestión para
+            distribuidora de bebidas.
           </p>
 
           <ul>
-            <li>Productos registrados: {totalProductos}</li>
-            <li>Clientes registrados: {totalClientes}</li>
-            <li>Ventas registradas: {totalVentas}</li>
-            <li>Total vendido: Bs. {totalVendido.toFixed(2)}</li>
+            <li>
+              Productos registrados:
+              {" "}
+              {totalProductos}
+            </li>
+
+            <li>
+              Clientes registrados:
+              {" "}
+              {totalClientes}
+            </li>
+
+            <li>
+              Ventas registradas:
+              {" "}
+              {totalVentas}
+            </li>
+
+            <li>
+              Total vendido:
+              {" "}
+              Bs. {totalVendido.toFixed(2)}
+            </li>
           </ul>
 
         </div>
+
       </div>
 
     </div>

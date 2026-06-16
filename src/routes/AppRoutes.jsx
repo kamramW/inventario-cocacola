@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
@@ -9,16 +9,20 @@ import Reportes from "../pages/reportes/Reportes";
 
 import Sidebar from "../components/Sidebar";
 
-function AppRoutes() {
-  return (
-    <BrowserRouter>
+function Layout() {
 
-      <Sidebar />
+  const location = useLocation();
+
+  const esLogin = location.pathname === "/";
+
+  return (
+    <>
+      {!esLogin && <Sidebar />}
 
       <div
         style={{
-          marginLeft: "240px",
-          padding: "20px",
+          marginLeft: esLogin ? "0px" : "260px",
+          padding: esLogin ? "0px" : "20px",
         }}
       >
         <Routes>
@@ -30,7 +34,14 @@ function AppRoutes() {
           <Route path="/reportes" element={<Reportes />} />
         </Routes>
       </div>
+    </>
+  );
+}
 
+function AppRoutes() {
+  return (
+    <BrowserRouter>
+      <Layout />
     </BrowserRouter>
   );
 }

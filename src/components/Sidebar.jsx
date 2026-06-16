@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
 function Sidebar() {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return null;
+  }
+
   return (
     <div
       style={{
@@ -21,25 +28,75 @@ function Sidebar() {
 
       <div className="d-grid gap-3">
 
-        <Link to="/dashboard" className="btn btn-light">
+        <Link
+          to="/dashboard"
+          className="btn btn-light"
+        >
           📊 Dashboard
         </Link>
 
-        <Link to="/productos" className="btn btn-light">
+        <Link
+          to="/productos"
+          className="btn btn-light"
+        >
           📦 Productos
         </Link>
 
-        <Link to="/clientes" className="btn btn-light">
+        <Link
+          to="/clientes"
+          className="btn btn-light"
+        >
           🏪 Clientes
         </Link>
 
-        <Link to="/ventas" className="btn btn-light">
+        <Link
+          to="/ventas"
+          className="btn btn-light"
+        >
           💰 Ventas
         </Link>
 
-        <Link to="/reportes" className="btn btn-light">
+        <Link
+          to="/reportes"
+          className="btn btn-light"
+        >
           📈 Reportes
         </Link>
+
+        <button
+  className="btn btn-danger"
+  onClick={async () => {
+
+    try {
+
+      const usuario = JSON.parse(
+        localStorage.getItem("usuario")
+      );
+
+      await fetch(
+        "http://localhost:3000/api/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            usuario_id: usuario.id,
+          }),
+        }
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    localStorage.clear();
+    window.location.href = "/";
+  }}
+>
+  🚪 Cerrar Sesión
+</button>
 
       </div>
 
@@ -53,8 +110,9 @@ function Sidebar() {
           fontSize: "14px",
         }}
       >
-        Sistema de Gestión
+        Sistema Distribuidora v1.0
       </div>
+
     </div>
   );
 }

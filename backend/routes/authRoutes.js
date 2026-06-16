@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const { login } = require("../controllers/authController");
+const {
+  login,
+  logout,
+} = require("../controllers/authController");
 
-router.get("/login", (req, res) => {
-  res.json({
-    mensaje: "Ruta auth funcionando"
-  });
+router.get("/", (req, res) => {
+  res.send("AUTH OK");
 });
 
 router.post("/login", login);
+router.post("/logout", logout);
 
 module.exports = router;
