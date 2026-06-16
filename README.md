@@ -1,13 +1,6 @@
 # Sistema de Inventario y Ventas Coca-Cola
 
 Integrantes:  Kevin Samuel Chambi Ramirez ci 13608719
-
-## Descripción
-
-Sistema web desarrollado para la gestión de inventario, clientes y ventas de productos Coca-Cola. El proyecto implementa autenticación de usuarios, generación de reportes y visualización de estadísticas mediante un dashboard interactivo.
-
-## Tecnologías
-
 ### Backend
 
 * Node.js
